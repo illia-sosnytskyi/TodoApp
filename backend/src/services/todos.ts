@@ -1,13 +1,41 @@
+import { DataTypes } from 'sequelize';
+
+import { sequelize } from '../utils/db';
 import { Todo } from '../types/Todo';
 
-let todos = [
-  { id: 1, title: 'HTML', completed: true },
-  { id: 2, title: 'CSS', completed: false },
-  { id: 3, title: 'JS', completed: true },
-];
+const Todo = sequelize.define('Todo', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  completed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    field: 'created_at',
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+}, {
+  tableName: 'todos',
+  updatedAt: false,
+});
 
-export function getAll() {
-  return todos;
+export async function getAll() {
+  const result = await Todo.findAll({
+    order: [
+      'created_at'
+    ]
+  });
+
+  return result;
 }
 
 export function getById(todoId: number) {

@@ -40,6 +40,4 @@ router.patch('/todos/', hasAcion('update'), express.json(), todoController.updat
 
 app.use('/.netlify/functions/server', router);
 
-// app.listen(5000);
-
 export const handler = serverless(app);
