@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-export const TodoModel = sequelize.define('Todo', {
+export const TodoModel = sequelize.define('todo', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
