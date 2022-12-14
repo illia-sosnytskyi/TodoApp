@@ -4,7 +4,9 @@ import { sequelize } from '../utils/db';
 export const TodoModel = sequelize.define('Todo', {
   id: {
     type: DataTypes.INTEGER,
+    autoIncrement: true,
     primaryKey: true,
+    allowNull: false,
   },
   title: {
     type: DataTypes.STRING,

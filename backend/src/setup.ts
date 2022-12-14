@@ -1,3 +1,8 @@
 import { TodoModel } from "./models/TodoModel";
+import { sequelize } from "./utils/db";
 
-TodoModel.sync({ force: true });
+(async() => {
+  await TodoModel.sync({ force: true });
+  await sequelize.close();
+})();
+

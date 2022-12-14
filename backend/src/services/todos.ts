@@ -1,3 +1,6 @@
+import { QueryTypes } from 'sequelize';
+
+import { sequelize } from '../utils/db';
 import { Todo } from "../types/Todo";
 import { TodoModel } from "../models/TodoModel";
 
@@ -6,55 +9,55 @@ export function normalize({ id, title, completed }: Todo) {
 }
 
 export function getAll() {
-  const result = TodoModel.findAll({
+  return TodoModel.findAll({
     order: ["created_at"],
-  });
-
-  return result;
+  })
 }
 
-export function getById(todoId: number) {
+export async function getById(todoId: number) {
   return TodoModel.findByPk(todoId);
 }
 
 export async function createTodo(title: string) {
-  const todos = await getAll();
+  const newTodo = {
+    title,
+    completed: false,
+  };
 
-  const maxId = todos.length
-    ? Math.max(...todos.map((todo) => todo.id)) + 1
-    : 1;
-
-  return TodoModel.create({ id: maxId, title });
+  return TodoModel.create(newTodo);
 }
 
-export function removeTodo(todoId: number) {
-  todos = todos.filter((todo) => todo.id !== todoId);
+export async function removeTodo(todoId: number) {
+  return TodoModel.destroy({
+    where: {
+      id: todoId,
+    },
+  });
 }
 
 export function updateTodo({ id, title, completed }: Todo) {
-  const todo = getById(id);
-
-  Object.assign(todo!, { title, completed });
-
-  return todo;
+  return TodoModel.update({ title, completed }, {
+    where: { id },
+  });
 }
 
 export function removeMany(ids: number[]) {
-  if (!ids.every(getById)) {
-    throw new Error();
-  }
 
-  todos = todos.filter((todo) => !ids.includes(todo.id));
+  return sequelize.query(
+    `DELETE FROM todos WHERE id IN (:ids)`, {
+      replacements: { ids },
+      type: QueryTypes.BULKDELETE,
+    }
+  )
 }
 
-export function updateMany(todos: Todo[]) {
-  for (const { id, title, completed } of todos) {
-    const foundTodo = getById(id);
-
-    if (!foundTodo) {
-      continue;
+export async function updateMany(todos: Todo[]) {
+  return sequelize.transaction(async (t) => {
+    for (const { id, title, completed } of todos) {
+      await TodoModel.update({ title, completed }, {
+        where: { id },
+        transaction: t,
+      });
     }
-
-    updateTodo({ id, title, completed });
-  }
+  });
 }
