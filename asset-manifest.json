@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/TodoApp/static/css/main.f9e6b28f.css",
+    "main.js": "/TodoApp/static/js/main.8bf889f2.js",
+    "static/media/fa-solid-900.ttf": "/TodoApp/static/media/fa-solid-900.b1a653db79258eeccc5d.ttf",
+    "static/media/fa-brands-400.ttf": "/TodoApp/static/media/fa-brands-400.450a5c898f0b184b968b.ttf",
+    "static/media/fa-solid-900.woff2": "/TodoApp/static/media/fa-solid-900.41c0f706d8ce93933771.woff2",
+    "static/media/fa-brands-400.woff2": "/TodoApp/static/media/fa-brands-400.3ac6859b28be946745f9.woff2",
+    "static/media/fa-regular-400.ttf": "/TodoApp/static/media/fa-regular-400.3cd9fb8fcec4ad0f99d4.ttf",
+    "static/media/fa-regular-400.woff2": "/TodoApp/static/media/fa-regular-400.1f3772178d9e5bed38a6.woff2",
+    "static/media/fa-v4compatibility.ttf": "/TodoApp/static/media/fa-v4compatibility.e314b618134d5be20996.ttf",
+    "static/media/fa-v4compatibility.woff2": "/TodoApp/static/media/fa-v4compatibility.4ee7f902d88f819e251c.woff2",
+    "index.html": "/TodoApp/index.html",
+    "main.f9e6b28f.css.map": "/TodoApp/static/css/main.f9e6b28f.css.map",
+    "main.8bf889f2.js.map": "/TodoApp/static/js/main.8bf889f2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f9e6b28f.css",
+    "static/js/main.8bf889f2.js"
+  ]
+}
