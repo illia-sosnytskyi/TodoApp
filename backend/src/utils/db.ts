@@ -1,6 +1,12 @@
 import { Sequelize } from 'sequelize';
+import * as dotendv from 'dotenv';
 
-export const sequelize = new Sequelize('postgres', 'postgres', 'test1234', {
-  host: 'https://melodious-jalebi-b4f592.netlify.app/.netlify/functions/server',
-  dialect: 'postgres',
+dotendv.config();
+
+export const sequelize = new Sequelize(process.env.DATABASE_URL!, {
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: true,
+    },
+  },
 });
