@@ -1,22 +1,26 @@
 import * as todoService from '../services/todos';
 import { Status } from '../types/Status';
 
-export const getAll = (req, res) => {
-  const todos = todoService.getAll();
+export const getAll = async (req, res) => {
+  const todos = await todoService.getAll();
 
-  res.send(todos);
+  res.send(
+    todos.map(todoService.normalize)
+  );
 };
 
-export const getOne = (req, res) => {
+export const getOne = async (req, res) => {
   const { todoId } = req.params; 
-  const foundTodo = todoService.getById(Number(todoId));
+  const foundTodo = await todoService.getById(Number(todoId));
 
   if (!foundTodo) {
     res.sendStatus(404);
     return;
   }
 
-  res.send(foundTodo);
+  res.send(
+    todoService.normalize(foundTodo)
+  );
 };
 
 export const postTodo = (req, res) => {

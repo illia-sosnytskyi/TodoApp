@@ -1,67 +1,34 @@
-import { DataTypes } from 'sequelize';
+import { Todo } from "../types/Todo";
+import { TodoModel } from "../models/TodoModel";
 
-import { sequelize } from '../utils/db';
-import { Todo } from '../types/Todo';
+export function normalize({ id, title, completed }: Todo) {
+  return { id, title, completed };
+}
 
-const Todo = sequelize.define('Todo', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  completed: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    field: 'created_at',
-    allowNull: false,
-    defaultValue: DataTypes.NOW,
-  },
-}, {
-  tableName: 'todos',
-  updatedAt: false,
-});
-
-export async function getAll() {
-  const result = await Todo.findAll({
-    order: [
-      'created_at'
-    ]
+export function getAll() {
+  const result = TodoModel.findAll({
+    order: ["created_at"],
   });
 
   return result;
 }
 
 export function getById(todoId: number) {
-  const foundTodo = todos.find(todo => todo.id === todoId);
-
-  return foundTodo || null;
+  return TodoModel.findByPk(todoId);
 }
 
-export function createTodo(title: string) {
+export async function createTodo(title: string) {
+  const todos = await getAll();
+
   const maxId = todos.length
-    ? Math.max(...todos.map(todo => todo.id)) + 1
+    ? Math.max(...todos.map((todo) => todo.id)) + 1
     : 1;
 
-  const newTodo = {
-    id: maxId,
-    title,
-    completed: false,
-  };
-
-  todos.push(newTodo);
-
-  return newTodo;
+  return TodoModel.create({ id: maxId, title });
 }
 
 export function removeTodo(todoId: number) {
-  todos = todos.filter(todo => todo.id !== todoId);
+  todos = todos.filter((todo) => todo.id !== todoId);
 }
 
 export function updateTodo({ id, title, completed }: Todo) {
@@ -77,7 +44,7 @@ export function removeMany(ids: number[]) {
     throw new Error();
   }
 
-  todos = todos.filter(todo => !ids.includes(todo.id));
+  todos = todos.filter((todo) => !ids.includes(todo.id));
 }
 
 export function updateMany(todos: Todo[]) {
@@ -88,6 +55,6 @@ export function updateMany(todos: Todo[]) {
       continue;
     }
 
-    updateTodo({id, title, completed});
+    updateTodo({ id, title, completed });
   }
 }
