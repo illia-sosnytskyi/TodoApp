@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { Todo } from '../types/Todo';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://melodious-jalebi-b4f592.netlify.app/.netlify/functions/server';
 
 export function getTodos(): Promise<Todo[]> {
   return axios.get('/todos')
